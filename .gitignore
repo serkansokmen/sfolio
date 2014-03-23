@@ -1,0 +1,21 @@
+  .*
+*.py[co]
+*.db
+*.sqlite3
+*.DS_Store
+
+node_modules
+dist
+.tmp
+.sass-cache
+app/bower_components
+build
+_cloak
+
+# Sublime Text CodeIntel config
+.codeintel/*
+!.jshintrc
+!.bowerrc
+!.gitignore
+
+*.mo
