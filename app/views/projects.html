@@ -1,0 +1,19 @@
+<ul class="media-list" ng-hide="loading">
+  <li class="media" ng-repeat="p in projects">
+    <a ng-href="#/projects/[[ p.id ]]" class="pull-left">
+      <!-- 115 202 230 404 -->
+      <img ng-src="[[ p.covers['202'] ]]">
+    </a>
+    <div class="media-body">
+      <h3>
+        <a ng-href="#/projects/[[ p.id ]]" ng-bind="p.name"></a>
+      </h3>
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+          <div class="pull-left label label-info" style="margin-right:5px; margin-bottom:10px;"
+                ng-repeat="tag in p.fields" ng-bind="tag"></div>
+        </div>
+      </div>
+    </div>
+  </li>
+</ul>

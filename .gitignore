@@ -1,4 +1,4 @@
-  .*
+.*
 *.py[co]
 *.db
 *.sqlite3
@@ -10,10 +10,10 @@ dist
 .sass-cache
 app/bower_components
 build
-_cloak
 
 # Sublime Text CodeIntel config
 .codeintel/*
+.cloak/
 !.jshintrc
 !.bowerrc
 !.gitignore

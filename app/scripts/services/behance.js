@@ -9,17 +9,28 @@ angular.module('sfolioApp')
 
     // Service methods
     var retrieveProjects = function() {
-      var deferred = $q.defer();
 
       behance.user.projects('serkansokmen').then(function (response) {
-        deferred.resolve(response);
+        projects.resolve(response);
       });
 
-      return deferred.promise;
+      return projects.promise;
+    };
+
+    var getProject = function (id) {
+
+      var project = $q.defer();
+
+      behance.project(id).then(function (response) {
+        project.resolve(response);
+      });
+
+      return project.promise;
     };
 
     // Public API
     return {
-      getProjects: retrieveProjects
+      getProjects: retrieveProjects,
+      getProject: getProject
     };
   });

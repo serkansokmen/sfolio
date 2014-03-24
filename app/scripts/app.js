@@ -13,13 +13,17 @@ angular.module('sfolioApp', [
 
   // Route config
   $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+      .when('/projects', {
+        templateUrl: 'views/projects.html',
+        controller: 'ProjectsCtrl'
       })
-      .otherwise({
-        redirectTo: '/'
+      .when('/projects/:id', {
+        templateUrl: 'views/project.html',
+        controller: 'ProjectCtrl'
       });
+      // .otherwise({
+      //   redirectTo: '/projects'
+      // });
 
   // CORS configuration
   $httpProvider.defaults.useXDomain = true;
