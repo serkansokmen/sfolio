@@ -1,36 +1,17 @@
 'use strict';
 
 angular.module('sfolioApp')
-  .factory('Behance', function ($q, BEHANCE_CLIENT_ID) {
+  .factory('Behance', function (Restangular) {
 
-    // Scoped service properties
-    var behance = be(BEHANCE_CLIENT_ID),
-        projects = $q.defer();
-
-    // Service methods
-    var retrieveProjects = function() {
-
-      behance.user.projects('serkansokmen').then(function (response) {
-        projects.resolve(response);
-      });
-
-      return projects.promise;
-    };
-
-    var getProject = function (id) {
-
-      var project = $q.defer();
-
-      behance.project(id).then(function (response) {
-        project.resolve(response);
-      });
-
-      return project.promise;
-    };
+    var _projectsService = Restangular.all('users/serkansokmen/projects');
 
     // Public API
     return {
-      getProjects: retrieveProjects,
-      getProject: getProject
+      getProjects: function () {
+        return _projectsService.getList();
+      },
+      getProject: function (id) {
+        return _projectsService.one(id);
+      }
     };
   });

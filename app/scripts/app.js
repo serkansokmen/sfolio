@@ -3,13 +3,12 @@
 angular.module('sfolioApp', [
   'ngRoute',
   'ngCookies',
-  'ngResource',
   'ngSanitize',
   'restangular',
   'ui.bootstrap',
   'wu.masonry'
 ])
-.config(function ($routeProvider, $httpProvider, $interpolateProvider, RestangularProvider) {
+.config(function ($routeProvider, $httpProvider, $interpolateProvider, RestangularProvider, BEHANCE_CLIENT_ID) {
 
   // Route config
   $routeProvider
@@ -29,7 +28,7 @@ angular.module('sfolioApp', [
   $httpProvider.defaults.useXDomain = true;
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
   // Disable IE Ajax request caching
-  // $httpProvider.defaults.headers.common['Cache-Control'] = 'no-cache';
+  $httpProvider.defaults.headers.common['Cache-Control'] = 'no-cache';
 
   // Change default interpolation
   $interpolateProvider.startSymbol('[[');
@@ -39,6 +38,13 @@ angular.module('sfolioApp', [
   RestangularProvider
     // Set base API endpoint
     .setBaseUrl('https://www.behance.net/v2')
+    .setDefaultHttpFields({cache: true})
+    .setDefaultRequestParams('jsonp', {callback: 'JSON_CALLBACK'})
+    .setDefaultRequestParams({client_id: BEHANCE_CLIENT_ID, callback: 'callbackFunction'})
+    .setResponseExtractor(function(response, operation) {
+      console.log(response);
+      return response.results;
+    })
     // Django Rest Framework returns result in an array named 'results'
     // so we dig it
     .setResponseInterceptor(function (data, operation, what) {
