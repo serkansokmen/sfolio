@@ -12,6 +12,8 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
+  grunt.loadNpmTasks('grunt-s3');
+
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -283,7 +285,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
-            'bower_components/**/*',
+            //'bower_components/**/*',
             'images/{,*/}*.{webp}',
             'fonts/*'
           ]
@@ -348,6 +350,100 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      }
+    },
+
+    // Amazon S3 Settings
+    // aws: grunt.file.readJSON('~/grunt-aws.json'),
+    // If you do not pass in a key and secret with your config,
+    // grunt-s3 will fallback to the following environment variables
+    s3: {
+      options: {
+        // key: '<%= aws.key %>',
+        // secret: '<%= aws.secret %>',
+        bucket: 'fitoera.com',
+        access: 'public-read',
+        headers: {
+          // Two Year cache policy (1000 * 60 * 60 * 24 * 730)
+          "Cache-Control": "max-age=630720000, public",
+          "Expires": new Date(Date.now() + 63072000000).toUTCString()
+        }
+      },
+      dev: {
+        // These options override the defaults
+        options: {
+          encodePaths: true,
+          maxOperations: 20
+        },
+        // Files to be uploaded.
+        upload: [
+          {
+            src: 'dist/**/*',
+            dest: '**/*',
+            options: { gzip: true }
+          },
+          {
+            src: 'passwords.txt',
+            dest: 'documents/ignore.txt',
+
+            // These values will override the above settings.
+            options: {
+              bucket: 'some-specific-bucket',
+              access: 'authenticated-read'
+            }
+          },
+          {
+            // Wildcards are valid *for uploads only* until I figure out a good implementation
+            // for downloads.
+            src: 'documents/*.txt',
+
+            // But if you use wildcards, make sure your destination is a directory.
+            dest: 'documents/'
+          }
+        ],
+
+        // Files to be downloaded.
+        download: [
+          {
+            src: 'documents/important.txt',
+            dest: 'important_document_download.txt'
+          },
+          {
+            src: 'garbage/IGNORE.txt',
+            dest: 'passwords_download.txt'
+          }
+        ],
+
+        del: [
+          {
+            src: 'documents/launch_codes.txt'
+          },
+          {
+            src: 'documents/backup_plan.txt'
+          }
+        ],
+
+        sync: [
+          {
+            // only upload this document if it does not exist already
+            src: 'important_document.txt',
+            dest: 'documents/important.txt',
+            options: { gzip: true }
+          },
+          {
+            // make sure this document is newer than the one on S3 and replace it
+            options: { verify: true },
+            src: 'passwords.txt',
+            dest: 'documents/ignore.txt'
+          },
+          {
+            src: path.join(variable.to.release, "build/cdn/js/**/*.js"),
+            dest: "jsgz",
+            // make sure the wildcard paths are fully expanded in the dest
+            rel: path.join(variable.to.release, "build/cdn/js"),
+            options: { gzip: true }
+          }
+        ]
       }
     }
   });
