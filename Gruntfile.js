@@ -287,7 +287,7 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'bower_components/font-awesome/fonts/*',
+            'bower_components/font-awesome/fonts/*'
           ]
         }, {
           expand: true,
@@ -337,34 +337,22 @@ module.exports = function (grunt) {
         uploadConcurrency: 5, // 5 simultaneous uploads
         downloadConcurrency: 5 // 5 simultaneous downloads
       },
-      // staging: {
-      //   options: {
-      //     bucket: 'my-wonderful-staging-bucket',
-      //     differential: true // Only uploads the files that have changed
-      //   },
-      //   files: [
-      //     {dest: 'app/', cwd: 'backup/staging/', action: 'download'},
-      //     {expand: true, cwd: 'dist/staging/scripts/', src: ['**'], dest: 'app/scripts/'},
-      //     {expand: true, cwd: 'dist/staging/styles/', src: ['**'], dest: 'app/styles/'},
-      //     {dest: 'src/app', action: 'delete'},
-      //   ]
-      // },
-      production: {
+      deploy: {
         options: {
           bucket: 'fitoera.com',
           params: {
-            ContentEncoding: 'gzip' // applies to all the files!
+            // ContentEncoding: 'gzip' // applies to all the files!
           },
           mime: {
-            //'dist/assets/production/LICENCE': 'text/plain'
+            '<%= yeoman.dist %>.htaccess': 'text/plain'
           }
         },
         files: [
-          {expand: true, cwd: 'dist/', src: ['**'], dest: ''},
-          {expand: true, cwd: 'dist/bower_components/font-awesome/fonts/', src: ['**'], dest: 'bower_components/font-awesome/fonts/'}
+          {expand: true, cwd: '<%= yeoman.dist %>', src: ['**'], dest: ''},
+          {expand: true, cwd: '<%= yeoman.dist %>bower_components/font-awesome/fonts/', src: ['**'], dest: 'bower_components/font-awesome/fonts/'}
         ]
       },
-      clean_production: {
+      clean: {
         options: {
           bucket: 'fitoera.com',
           debug: false // Doesn't actually delete but shows log
@@ -373,7 +361,7 @@ module.exports = function (grunt) {
           {dest: '/', exclude: "bower_components/**/*.*", action: 'delete'}
         ]
       },
-      download_production: {
+      backup: {
         options: {
           bucket: 'fitoera.com'
         },
@@ -426,8 +414,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
-    //'htmlmin'
+    'usemin',
+    'htmlmin'
   ]);
 
   grunt.registerTask('default', [
