@@ -9,6 +9,7 @@ angular.module('sfolioApp')
       $scope.projects = data.projects;
       $scope.loading = false;
     }, function (error) {
+      console.log(error);
       $scope.projects = [];
       $scope.loading = false;
     });

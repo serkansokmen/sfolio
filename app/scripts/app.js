@@ -13,20 +13,20 @@ angular.module('sfolioApp', [
   // Route config
   $routeProvider
       .when('/projects', {
-        templateUrl: 'views/projects.html',
-        controller: 'ProjectsCtrl'
-      })
-      .when('/projects/:id', {
-        templateUrl: 'views/project.html',
-        controller: 'ProjectCtrl'
-      });
-      // .otherwise({
-      //   redirectTo: '/projects'
-      // });
+      templateUrl: 'views/projects.html',
+      controller: 'ProjectsCtrl'
+    })
+    .when('/projects/:id', {
+      templateUrl: 'views/project.html',
+      controller: 'ProjectCtrl'
+    });
+    // .otherwise({
+    //   redirectTo: '/projects'
+    // });
 
   // CORS configuration
   $httpProvider.defaults.useXDomain = true;
-  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  // delete $httpProvider.defaults.headers.common['X-Requested-With'];
   // Disable IE Ajax request caching
   $httpProvider.defaults.headers.common['Cache-Control'] = 'no-cache';
 
@@ -40,21 +40,22 @@ angular.module('sfolioApp', [
     .setBaseUrl('https://www.behance.net/v2')
     .setDefaultHttpFields({cache: true})
     .setDefaultRequestParams('jsonp', {callback: 'JSON_CALLBACK'})
-    .setDefaultRequestParams({client_id: BEHANCE_CLIENT_ID, callback: 'callbackFunction'})
+    .setDefaultRequestParams({'client_id': BEHANCE_CLIENT_ID, callback: 'callbackFunction'})
     .setResponseExtractor(function(response, operation) {
-      console.log(response);
+      console.log(response, operation);
       return response.results;
     })
     // Django Rest Framework returns result in an array named 'results'
     // so we dig it
-    .setResponseInterceptor(function (data, operation, what) {
-      if (operation === 'getList') {
-        var list = data['results'];
-        list.metadata = data.metadata;
-        return list;
-      }
-      return data;
-    })
+    // .setResponseInterceptor(function (data, operation, what) {
+    //   console.log(data, operation, what);
+    //   if (operation === 'getList') {
+    //     var list = data.results;
+    //     list.metadata = data.metadata;
+    //     return list;
+    //   }
+    //   return data;
+    // })
     // stop the promise chain on error
     .setErrorInterceptor(function (resp) {
       console.log(resp.status);
