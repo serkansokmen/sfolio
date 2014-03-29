@@ -12,7 +12,8 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
-  grunt.loadNpmTasks('grunt-s3');
+  //grunt.loadNpmTasks('grunt-awssum-deploy');
+  grunt.loadNpmTasks('grunt-aws-s3');
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -318,32 +319,6 @@ module.exports = function (grunt) {
       ]
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     // Test settings
     karma: {
       unit: {
@@ -352,99 +327,60 @@ module.exports = function (grunt) {
       }
     },
 
-    // Amazon S3 Settings
-    // aws: grunt.file.readJSON('~/grunt-aws.json'),
-    // If you do not pass in a key and secret with your config,
-    // grunt-s3 will fallback to the following environment variables
-
-    s3: {
-      // options: {
-      //   // key: '<%= aws.key %>',
-      //   // secret: '<%= aws.secret %>',
-      //   bucket: 'fitoera.com',
-      //   access: 'public-read',
-      //   headers: {
-      //     // Two Year cache policy (1000 * 60 * 60 * 24 * 730)
-      //     "Cache-Control": "max-age=630720000, public",
-      //     "Expires": new Date(Date.now() + 63072000000).toUTCString()
-      //   }
-      // },
-      // dev: {
-      //   // These options override the defaults
+    // Amazon S3 Upload
+    aws: grunt.file.readJSON('.cloak/grunt-aws.json'),
+    aws_s3: {
+      options: {
+        accessKeyId: '<%= aws.AWSAccessKeyId %>', // Use the variables
+        secretAccessKey: '<%= aws.AWSSecretKey %>', // You can also use env variables
+        region: 'eu-west-1',
+        uploadConcurrency: 5, // 5 simultaneous uploads
+        downloadConcurrency: 5 // 5 simultaneous downloads
+      },
+      // staging: {
       //   options: {
-      //     encodePaths: true,
-      //     maxOperations: 20
+      //     bucket: 'my-wonderful-staging-bucket',
+      //     differential: true // Only uploads the files that have changed
       //   },
-      //   // Files to be uploaded.
-      //   upload: [
-      //     {
-      //       src: 'dist/**/*',
-      //       dest: '**/*',
-      //       options: { gzip: true }
-      //     },
-      //     {
-      //       src: 'passwords.txt',
-      //       dest: 'documents/ignore.txt',
-
-      //       // These values will override the above settings.
-      //       options: {
-      //         bucket: 'some-specific-bucket',
-      //         access: 'authenticated-read'
-      //       }
-      //     },
-      //     {
-      //       // Wildcards are valid *for uploads only* until I figure out a good implementation
-      //       // for downloads.
-      //       src: 'documents/*.txt',
-
-      //       // But if you use wildcards, make sure your destination is a directory.
-      //       dest: 'documents/'
-      //     }
-      //   ],
-
-      //   // Files to be downloaded.
-      //   download: [
-      //     {
-      //       src: 'documents/important.txt',
-      //       dest: 'important_document_download.txt'
-      //     },
-      //     {
-      //       src: 'garbage/IGNORE.txt',
-      //       dest: 'passwords_download.txt'
-      //     }
-      //   ],
-
-      //   del: [
-      //     {
-      //       src: 'documents/launch_codes.txt'
-      //     },
-      //     {
-      //       src: 'documents/backup_plan.txt'
-      //     }
-      //   ],
-
-      //   sync: [
-      //     {
-      //       // only upload this document if it does not exist already
-      //       src: 'important_document.txt',
-      //       dest: 'documents/important.txt',
-      //       options: { gzip: true }
-      //     },
-      //     {
-      //       // make sure this document is newer than the one on S3 and replace it
-      //       options: { verify: true },
-      //       src: 'passwords.txt',
-      //       dest: 'documents/ignore.txt'
-      //     },
-      //     {
-      //       src: path.join(variable.to.release, "build/cdn/js/**/*.js"),
-      //       dest: "jsgz",
-      //       // make sure the wildcard paths are fully expanded in the dest
-      //       rel: path.join(variable.to.release, "build/cdn/js"),
-      //       options: { gzip: true }
-      //     }
+      //   files: [
+      //     {dest: 'app/', cwd: 'backup/staging/', action: 'download'},
+      //     {expand: true, cwd: 'dist/staging/scripts/', src: ['**'], dest: 'app/scripts/'},
+      //     {expand: true, cwd: 'dist/staging/styles/', src: ['**'], dest: 'app/styles/'},
+      //     {dest: 'src/app', action: 'delete'},
       //   ]
-      // }
+      // },
+      production: {
+        options: {
+          bucket: 'fitoera.com',
+          params: {
+            ContentEncoding: 'gzip' // applies to all the files!
+          },
+          mime: {
+            //'dist/assets/production/LICENCE': 'text/plain'
+          }
+        },
+        files: [
+          {expand: true, cwd: 'dist/', src: ['**'], dest: ''},
+          {expand: true, cwd: 'dist/bower_components/font-awesome/fonts/', src: ['**'], dest: 'bower_components/font-awesome/fonts/'}
+        ]
+      },
+      clean_production: {
+        options: {
+          bucket: 'fitoera.com',
+          debug: false // Doesn't actually delete but shows log
+        },
+        files: [
+          {dest: '/', exclude: "bower_components/**/*.*", action: 'delete'}
+        ]
+      },
+      download_production: {
+        options: {
+          bucket: 'fitoera.com'
+        },
+        files: [
+          {dest: '', cwd: 'backup/', action: 'download'}
+        ]
+      }
     }
   });
 
@@ -490,8 +426,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin',
-    'htmlmin'
+    'usemin'
+    //'htmlmin'
   ]);
 
   grunt.registerTask('default', [
