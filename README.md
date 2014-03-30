@@ -1,6 +1,6 @@
 SFolio Frontend AngularJS Application
 =====================================
 
-v0.1
+v0.1.1
 
 [GitHub Repo](https://github.com/serkansokmen/sfolio/ "GitHub Repository Link")

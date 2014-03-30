@@ -41,7 +41,6 @@ angular.module('sfolioApp', [
 })
 .run(function ($location, $rootScope){
   $rootScope.isActive = function (viewLocation) {
-    console.log($location.path());
     return $location.path().search(viewLocation) > -1;
   };
 })
