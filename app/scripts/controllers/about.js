@@ -6,6 +6,10 @@ angular.module('sfolioApp')
     Behance.getUser('serkansokmen').then(function (user) {
       $scope.user = user;
       $scope.loading = false;
+    }, function (error) {
+      console.log(error);
+      $scope.loading = false;
+      $scope.user = null;
     });
 
     $scope.gotoUrl = function (url) {

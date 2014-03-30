@@ -1,7 +1,9 @@
 sfolio
 ======
+v0.1.5
 
-Personal portfolio application using [Behance API](https://www.behance.net/dev/api/console "Behance API Console") to showcase projects and some info about them.
+**Personal portfolio showcase projects**
+
+Powered By [Behance API](https://www.behance.net/dev/api/console "Behance API Console")
+
 Created with [Yeoman Angular Generator](https://github.com/yeoman/generator-angular "Yeoman Angular Generator Github Repository").
-
-v0.1.4
