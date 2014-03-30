@@ -1,17 +1,22 @@
 'use strict';
 
 angular.module('sfolioApp')
-  .controller('ProjectsCtrl', function ($scope, $http, $modal, $log, Behance) {
+  .controller('ProjectsCtrl', function ($scope, Behance) {
 
     $scope.loading = true;
-    Behance.getProjects().then(function (projects) {
-      $scope.projects = projects;
-      console.log(projects);
-      $scope.loading = false;
-    }, function (error) {
-      console.log(error);
-      $scope.projects = null;
-      $scope.loading = false;
-    });
+    $scope.pageNum = 1;
+
+    $scope.loadProjects = function (pageNum) {
+      Behance.getProjects({
+        page:pageNum
+      }).then(function (projects) {
+          $scope.projects = projects;
+          $scope.loading = false;
+        }, function (error) {
+          $scope.projects = null;
+          $scope.loading = false;
+        });
+    };
+    $scope.loadProjects();
 
   });

@@ -76,18 +76,13 @@ body {
 .project-thumb {
     position: relative;
 }
-.project-thumb img {
+
+.masonry-brick {
     width: 230px;
     height: 180px;
 }
-
 .project-meta {
-    position: absolute;
-    top: 0px;
-    left: 10px;
-    width: 240px;
-    height: 240px;
-    display: block;
+    padding: 10px;
 }
 
 .project-meta .title a {
