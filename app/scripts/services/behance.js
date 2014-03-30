@@ -1,24 +1,29 @@
 'use strict';
 
 angular.module('sfolioApp')
-  .factory('Behance', function ($http, $q, BEHANCE_CLIENT_ID) {
+  .factory('Behance', function ($http, $q, localStorageService, BEHANCE_CLIENT_ID) {
 
     // Public API
     return {
       // Get a list of projects
       getProjects: function () {
 
-        var _projects = $q.defer();
+        var _projects = $q.defer(),
+            _storedProjects = localStorageService.get('Projects');
 
-        $http.jsonp('https://www.behance.net/v2/users/serkansokmen/projects', {
-          params: {
-            'client_id': BEHANCE_CLIENT_ID,
-            'callback': 'JSON_CALLBACK'
-          },
-          cache: true
-        }).success(function (data){
-          _projects.resolve(data.projects);
-        });
+        if (_storedProjects !== null) {
+          _projects.resolve(_storedProjects);
+        } else {
+          $http.jsonp('https://www.behance.net/v2/users/serkansokmen/projects', {
+            params: {
+              'client_id': BEHANCE_CLIENT_ID,
+              'callback': 'JSON_CALLBACK'
+            }
+          }).success(function (data){
+            _projects.resolve(data.projects);
+            localStorageService.add('Projects', data.projects);
+          });
+        }
 
         return _projects.promise;
       },
