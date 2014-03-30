@@ -1,38 +1,38 @@
 <loading-icon ng-show="loading"></loading-icon>
 
-<h3 ng-bind="project.name"></h3>
-<p ng-bind="project.description"></p>
+<div ng-hide="loading">
+  <h3 ng-bind="project.name"></h3>
+  <p ng-bind="project.description"></p>
 
-<h4><i class="fa fa-tags success"></i> Tags</h4>
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="pull-left label label-info" style="margin-right:5px; margin-bottom:10px;"
-          ng-repeat="tag in project.tags" ng-bind="tag"></div>
-  </div>
-</div>
-
-<h4><i class="fa fa-pagelines"></i> Fields</h4>
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <div class="pull-left label label-success" style="margin-right:5px; margin-bottom:10px;"
-          ng-repeat="field in project.fields" ng-bind="field"></div>
-  </div>
-</div>
-
-<div ng-repeat="m in project.modules">
-  <div ng-switch on="m.type" style="margin-bottom: 10px;">
-    <div ng-switch-when="text">
-      <p ng-bind-html="m.text_plain"></p>
-    </div>
-    <div ng-switch-when="image">
-      <img ng-src="[[ m.src ]]">
-    </div>
-    <div ng-switch-when="embed">
-      <div ng-bind-html="getModuleEmbed(m.embed)" style="width:[[ m.width ]]px;height:[[ m.height ]]px;"></div>
+  <h4><i class="fa fa-tags success"></i> Tags</h4>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="pull-left label label-info" style="margin-right:5px; margin-bottom:10px;"
+            ng-repeat="tag in project.tags" ng-bind="tag"></div>
     </div>
   </div>
+
+  <h4><i class="fa fa-pagelines"></i> Fields</h4>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="pull-left label label-success" style="margin-right:5px; margin-bottom:10px;"
+            ng-repeat="field in project.fields" ng-bind="field"></div>
+    </div>
+  </div>
+
+  <div ng-repeat="m in project.modules">
+    <div ng-switch on="m.type" style="margin-bottom: 10px;">
+      <div ng-switch-when="text">
+        <p ng-bind-html="m.text_plain"></p>
+      </div>
+      <div ng-switch-when="image">
+        <img ng-src="[[ m.src ]]">
+      </div>
+      <div ng-switch-when="embed">
+        <div ng-bind-html="getModuleEmbed(m.embed)" style="width:[[ m.width ]]px;height:[[ m.height ]]px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
 </div>
-
-<hr>
-
-
