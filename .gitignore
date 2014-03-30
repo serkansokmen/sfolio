@@ -14,7 +14,7 @@ build
 
 # Sublime Text CodeIntel config
 .codeintel/*
-.cloak/
+.cloak/*
 !.jshintrc
 !.bowerrc
 !.gitignore
