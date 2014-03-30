@@ -1,1 +1,32 @@
-<p>This is the about view.</p>
+<loading-icon ng-show="loading"></loading-icon>
+<div class="row" ng-show="user">
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="well well-sm">
+      <div class="row">
+        <div class="col-sm-9 col-md-10">
+          <h4 ng-bind="user.display_name"></h4>
+          <h5 ng-bind="user.occupation"></h5>
+
+          <i class="fa fa-map-marker"></i>
+          <cite title="[[ user.city ]], [[ user.country ]]">[[ user.city ]], [[ user.country ]]</cite>
+          <br>
+          <strong ng-bind="user.stats.followers"></strong> Followers, <strong ng-bind="user.stats.following"></strong> Following
+
+          <p style="margin-top:10px;" ng-bind="user.sections.About"></p>
+
+          <hr>
+
+          <div class="btn-group pull-left">
+            <button type="button" class="btn btn-default" ng-repeat="link in user.social_links" ng-click="gotoUrl(link.url)">
+              <i class="fa fa-[[ link.service_name | lowercase ]]-square"></i> [[ link.service_name ]]
+            </button>
+          </div>
+
+        </div>
+        <div class="col-sm-3 col-md-2">
+          <img ng-src="[[ user.images.138 ]]" alt="" class="img-rounded img-responsive" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -22,7 +22,8 @@ angular.module('sfolioApp', [
       controller: 'ProjectCtrl'
     })
     .when('/about', {
-      templateUrl: 'views/about.html'
+      templateUrl: 'views/about.html',
+      controller: 'AboutCtrl'
     })
     .otherwise({
       redirectTo: '/'
@@ -37,5 +38,11 @@ angular.module('sfolioApp', [
   // Change default interpolation
   $interpolateProvider.startSymbol('[[');
   $interpolateProvider.endSymbol(']]');
+})
+.run(function ($location, $rootScope){
+  $rootScope.isActive = function (viewLocation) {
+    console.log($location.path());
+    return $location.path().search(viewLocation) > -1;
+  };
 })
 .constant('BEHANCE_CLIENT_ID', 'udyhvT9z5DUw9qP7giwmusxfMEjTSTBm');
