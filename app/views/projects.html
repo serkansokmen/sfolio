@@ -22,6 +22,6 @@
 <hr>
 
 <div class="btn-group">
-  <button class="btn btn-default btn-sm" ng-click="loadProjects(1)">Page 1</button>
-  <button class="btn btn-default btn-sm" ng-click="loadProjects(2)">Page 2</button>
+  <button type="button" class="btn btn-primary" ng-disabled="pageNum == 1" ng-model="pageNum" btn-radio="1">Page 1</button>
+  <button type="button" class="btn btn-primary" ng-disabled="pageNum == 2" ng-model="pageNum" btn-radio="2">Page 2</button>
 </div>

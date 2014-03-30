@@ -19,6 +19,10 @@ angular.module('sfolioApp', [
       templateUrl: 'views/projects.html',
       controller: 'ProjectsCtrl'
     })
+    .when('/projects?:page', {
+      templateUrl: 'views/projects.html',
+      controller: 'ProjectsCtrl'
+    })
     .when('/projects/:id', {
       templateUrl: 'views/project.html',
       controller: 'ProjectCtrl'

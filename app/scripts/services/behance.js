@@ -11,7 +11,6 @@ angular.module('sfolioApp')
 
       // Get a list of projects
       getProjects: function (config) {
-        console.log(config);
         var pageNum = 1;
         if (angular.isObject(config) && angular.isDefined(config.page)) {
           pageNum = config.page;
