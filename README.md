@@ -1,6 +1,6 @@
 sfolio
 ======
-v0.1.5
+v0.1.6
 
 **Personal portfolio showcase projects**
 
