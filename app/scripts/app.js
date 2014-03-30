@@ -4,7 +4,9 @@ angular.module('sfolioApp', [
   'ngRoute',
   'ngCookies',
   'ngSanitize',
-  'ui.bootstrap'
+  'LocalStorageModule',
+  'ui.bootstrap',
+  'wu.masonry'
 ])
 .config(function ($routeProvider, $httpProvider, $interpolateProvider, BEHANCE_CLIENT_ID) {
 
@@ -14,6 +16,10 @@ angular.module('sfolioApp', [
       templateUrl: 'views/home.html'
     })
     .when('/projects', {
+      templateUrl: 'views/projects.html',
+      controller: 'ProjectsCtrl'
+    })
+    .when('/projects?:page', {
       templateUrl: 'views/projects.html',
       controller: 'ProjectsCtrl'
     })

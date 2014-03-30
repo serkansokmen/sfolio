@@ -72,6 +72,23 @@ body {
     margin-top: 28px;
 }
 
+
+.project-thumb {
+    position: relative;
+}
+
+.masonry-brick {
+    width: 230px;
+    height: 180px;
+}
+.project-meta {
+    padding: 10px;
+}
+
+.project-meta .title a {
+    color: white;
+}
+
 @media screen and (min-width: $screen-lg-min) {
     .container {
         max-width: 960px;
