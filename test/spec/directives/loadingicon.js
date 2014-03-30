@@ -15,6 +15,6 @@ describe('Directive: loadingIcon', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<loading-icon></loading-icon>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the loadingIcon directive');
+    expect(element.find('i').hasClass('fa fa-spinner fa-spin')).toBe(true);
   }));
 });

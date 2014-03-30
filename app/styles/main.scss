@@ -1,7 +1,10 @@
-$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
-
 @import "sass-bootstrap/lib/bootstrap";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/variables";
+@import "bootswatch-scss/flatly/variables";
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap/bootstrap";
+@import "bootswatch-scss/flatly/bootswatch";
 
+$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
 $fa-font-path: "/bower_components/font-awesome/fonts";
 @import "font-awesome/scss/font-awesome";
 
