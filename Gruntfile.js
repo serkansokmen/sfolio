@@ -418,6 +418,13 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
 
+  grunt.registerTask('deploy', [
+    'clean',
+    'build',
+    'aws_s3:clean',
+    'aws_s3:deploy'
+  ]);
+
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
