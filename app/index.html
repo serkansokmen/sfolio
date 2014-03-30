@@ -24,20 +24,7 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <div class="container">
-      <nav class="navbar navbar-default navbar-fixed-tops" role="navigation">
-        <a class="navbar-brand" ng-href="/">Home</a>
-        <ul class="nav navbar-nav">
-          <li ng-class="{ active: isActive('/projects')}">
-            <a ng-href="#/projects">Projects</a>
-          </li>
-          <li ng-class="{ active: isActive('/about')}">
-            <a ng-href="#/about">About</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-
+    <div ng-include="'views/navbar.html'"></div>
     <div class="container" ng-view=""></div>
 
     <!--[if lt IE 9]>
@@ -75,6 +62,7 @@
     <script src="scripts/controllers/project.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/directives/loadingIcon.js"></script>
+    <script src="scripts/controllers/navbar.js"></script>
     <!-- endbuild -->
   </body>
 </html>
