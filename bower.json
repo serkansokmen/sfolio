@@ -1,6 +1,6 @@
 {
   "name": "sfolio",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "dependencies": {
     "angular": "~1.2.15",
     "angular-cookies": "~1.2.15",
