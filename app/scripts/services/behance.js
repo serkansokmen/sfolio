@@ -3,6 +3,9 @@
 angular.module('sfolioApp')
   .factory('Behance', function ($http, $q, localStorageService, BEHANCE_CLIENT_ID) {
 
+    // Should be called to refresh data
+    // localStorageService.clearAll();
+
     // Public API
     return {
       // Get a list of projects
