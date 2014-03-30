@@ -6,6 +6,7 @@ angular.module('sfolioApp')
     $scope.loading = true;
     Behance.getProjects().then(function (projects) {
       $scope.projects = projects;
+      console.log(projects);
       $scope.loading = false;
     }, function (error) {
       console.log(error);

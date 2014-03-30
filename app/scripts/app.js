@@ -4,7 +4,9 @@ angular.module('sfolioApp', [
   'ngRoute',
   'ngCookies',
   'ngSanitize',
-  'ui.bootstrap'
+  'LocalStorageModule',
+  'ui.bootstrap',
+  'wu.masonry'
 ])
 .config(function ($routeProvider, $httpProvider, $interpolateProvider, BEHANCE_CLIENT_ID) {
 
