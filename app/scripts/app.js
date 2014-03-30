@@ -4,11 +4,10 @@ angular.module('sfolioApp', [
   'ngRoute',
   'ngCookies',
   'ngSanitize',
-  'restangular',
   'ui.bootstrap',
   'wu.masonry'
 ])
-.config(function ($routeProvider, $httpProvider, $interpolateProvider, RestangularProvider, BEHANCE_CLIENT_ID) {
+.config(function ($routeProvider, $httpProvider, $interpolateProvider, BEHANCE_CLIENT_ID) {
 
   // Route config
   $routeProvider
@@ -33,33 +32,5 @@ angular.module('sfolioApp', [
   // Change default interpolation
   $interpolateProvider.startSymbol('[[');
   $interpolateProvider.endSymbol(']]');
-
-  // Restangular configuration
-  RestangularProvider
-    // Set base API endpoint
-    .setBaseUrl('https://www.behance.net/v2')
-    .setDefaultHttpFields({cache: true})
-    .setDefaultRequestParams('jsonp', {callback: 'JSON_CALLBACK'})
-    .setDefaultRequestParams({'client_id': BEHANCE_CLIENT_ID, callback: 'callbackFunction'})
-    .setResponseExtractor(function(response, operation) {
-      console.log(response, operation);
-      return response.results;
-    })
-    // Django Rest Framework returns result in an array named 'results'
-    // so we dig it
-    // .setResponseInterceptor(function (data, operation, what) {
-    //   console.log(data, operation, what);
-    //   if (operation === 'getList') {
-    //     var list = data.results;
-    //     list.metadata = data.metadata;
-    //     return list;
-    //   }
-    //   return data;
-    // })
-    // stop the promise chain on error
-    .setErrorInterceptor(function (resp) {
-      console.log(resp.status);
-      return false;
-    });
 })
 .constant('BEHANCE_CLIENT_ID', 'udyhvT9z5DUw9qP7giwmusxfMEjTSTBm');

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('sfolioApp')
-  .factory('Behance', function ($http, $q, Restangular, BEHANCE_CLIENT_ID) {
+  .factory('Behance', function ($http, $q, BEHANCE_CLIENT_ID) {
 
     var _projects = $q.defer(),
         _project = $q.defer();
@@ -15,7 +15,8 @@ angular.module('sfolioApp')
           params: {
             'client_id': BEHANCE_CLIENT_ID,
             'callback': 'JSON_CALLBACK'
-          }
+          },
+          cache: true
         }).success(function (data){
           _projects.resolve(data.projects);
         });
@@ -30,7 +31,8 @@ angular.module('sfolioApp')
           params: {
             'client_id': BEHANCE_CLIENT_ID,
             'callback': 'JSON_CALLBACK'
-          }
+          },
+          cache: true
         }).success(function (data){
           _project.resolve(data.project);
         });
