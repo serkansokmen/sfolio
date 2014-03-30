@@ -6,6 +6,7 @@
 
 node_modules
 dist
+backup
 .tmp
 .sass-cache
 app/bower_components

@@ -3,10 +3,11 @@
 angular.module('sfolioApp')
   .controller('ProjectCtrl', function ($scope, $routeParams, $sce, Behance) {
 
-    $scope.project = Behance.getProject($routeParams['id'])
-      .then(function (data) {
-        $scope.project = data.project;
+    $scope.project = Behance.getProject($routeParams.id)
+      .then(function (project) {
+        $scope.project = project;
       }, function (error) {
+        console.log(error);
         $scope.project = {};
       });
 

@@ -1,36 +1,62 @@
 'use strict';
 
 angular.module('sfolioApp')
-  .factory('Behance', function ($q, BEHANCE_CLIENT_ID) {
-
-    // Scoped service properties
-    var behance = be(BEHANCE_CLIENT_ID),
-        projects = $q.defer();
-
-    // Service methods
-    var retrieveProjects = function() {
-
-      behance.user.projects('serkansokmen').then(function (response) {
-        projects.resolve(response);
-      });
-
-      return projects.promise;
-    };
-
-    var getProject = function (id) {
-
-      var project = $q.defer();
-
-      behance.project(id).then(function (response) {
-        project.resolve(response);
-      });
-
-      return project.promise;
-    };
+  .factory('Behance', function ($http, $q, BEHANCE_CLIENT_ID) {
 
     // Public API
     return {
-      getProjects: retrieveProjects,
-      getProject: getProject
+      // Get a list of projects
+      getProjects: function () {
+
+        var _projects = $q.defer();
+
+        $http.jsonp('https://www.behance.net/v2/users/serkansokmen/projects', {
+          params: {
+            'client_id': BEHANCE_CLIENT_ID,
+            'callback': 'JSON_CALLBACK'
+          },
+          cache: true
+        }).success(function (data){
+          _projects.resolve(data.projects);
+        });
+
+        return _projects.promise;
+      },
+
+      // Get project with id
+      getProject: function (id) {
+
+        var _project = $q.defer();
+
+        $http.jsonp('https://www.behance.net/v2/projects/' + id, {
+          params: {
+            'client_id': BEHANCE_CLIENT_ID,
+            'callback': 'JSON_CALLBACK'
+          },
+          cache: true
+        }).success(function (data){
+          _project.resolve(data.project);
+        });
+
+        return _project.promise;
+      },
+
+      // Get project with id
+      getUser: function (username) {
+
+        var _user = $q.defer();
+
+        $http.jsonp('https://www.behance.net/v2/users/' + username, {
+          params: {
+            'client_id': BEHANCE_CLIENT_ID,
+            'callback': 'JSON_CALLBACK'
+          },
+          cache: true
+        }).success(function (data){
+          _user.resolve(data.user);
+        });
+
+        return _user.promise;
+      }
     };
   });

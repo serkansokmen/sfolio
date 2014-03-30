@@ -12,6 +12,9 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
+  //grunt.loadNpmTasks('grunt-awssum-deploy');
+  grunt.loadNpmTasks('grunt-aws-s3');
+
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -283,9 +286,8 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
-            'bower_components/**/*',
             'images/{,*/}*.{webp}',
-            'fonts/*'
+            'bower_components/font-awesome/fonts/*'
           ]
         }, {
           expand: true,
@@ -317,37 +319,55 @@ module.exports = function (grunt) {
       ]
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
-
     // Test settings
     karma: {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      }
+    },
+
+    // Amazon S3 Upload
+    aws: grunt.file.readJSON('.cloak/grunt-aws.json'),
+    aws_s3: {
+      options: {
+        accessKeyId: '<%= aws.AWSAccessKeyId %>', // Use the variables
+        secretAccessKey: '<%= aws.AWSSecretKey %>', // You can also use env variables
+        region: 'eu-west-1',
+        uploadConcurrency: 5, // 5 simultaneous uploads
+        downloadConcurrency: 5 // 5 simultaneous downloads
+      },
+      deploy: {
+        options: {
+          bucket: 'fitoera.com',
+          params: {
+            // ContentEncoding: 'gzip' // applies to all the files!
+          },
+          mime: {
+            '<%= yeoman.dist %>.htaccess': 'text/plain'
+          }
+        },
+        files: [
+          {expand: true, cwd: '<%= yeoman.dist %>', src: ['**'], dest: ''},
+          {expand: true, cwd: '<%= yeoman.dist %>bower_components/font-awesome/fonts/', src: ['**'], dest: 'bower_components/font-awesome/fonts/'}
+        ]
+      },
+      clean: {
+        options: {
+          bucket: 'fitoera.com',
+          debug: false // Doesn't actually delete but shows log
+        },
+        files: [
+          {dest: '/', exclude: "bower_components/**/*.*", action: 'delete'}
+        ]
+      },
+      backup: {
+        options: {
+          bucket: 'fitoera.com'
+        },
+        files: [
+          {dest: '', cwd: 'backup/', action: 'download'}
+        ]
       }
     }
   });
